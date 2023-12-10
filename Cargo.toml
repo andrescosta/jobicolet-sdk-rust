@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 repository = "https://github.com/andrescosta/jobicolet-sdk-rust"
 description = "Very experimental and rudimentary WASM SDK for Jobico"
-
+license-file = "LICENSE"
 [dependencies]
 # wee_aloc is a WebAssembly optimized allocator, which is needed to use non-numeric types like strings.
 # See https://docs.rs/wee_alloc/latest/wee_alloc/
