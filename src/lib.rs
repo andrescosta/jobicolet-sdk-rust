@@ -11,28 +11,28 @@ pub struct Ret2Val {
     two: u64,
 }
 
-pub type EventFunc = fn(&String) -> (u64, String);
+pub type EventFunc = fn(u32, &String) -> (u64, String);
 
 pub static mut ON_EVENT: Option<EventFunc> = None;
 
-pub fn log(level: u32, message: &String) {
+pub fn log(id:u32, level: u32, message: &String) {
     unsafe {
         let (ptr, len) = string_to_ptr(message);
-        _log(level, ptr, len);
+        _log(id, level, ptr, len);
     }
 }
 
 #[link(wasm_import_module = "env")]
 extern "C" {
     #[link_name = "log"]
-    fn _log(level: u32, ptr: u32, size: u32);
+    fn _log(id:u32, level: u32, ptr: u32, size: u32);
 }
 
 #[cfg_attr(all(target_arch = "wasm32"), export_name = "event")]
 #[no_mangle]
-unsafe extern "C" fn _event(ptr: u32, len: u32) -> Ret2Val {
+unsafe extern "C" fn _event(id: u32, ptr: u32, len: u32) -> Ret2Val {
     let name = &ptr_to_string(ptr, len);
-    let (r, g) = ON_EVENT.unwrap()(name);
+    let (r, g) = ON_EVENT.unwrap()(id, name);
     let (ptr, len) = string_to_ptr(&g);
     std::mem::forget(g);
     return Ret2Val {
