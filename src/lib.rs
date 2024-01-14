@@ -32,11 +32,11 @@ extern "C" {
 #[no_mangle]
 unsafe extern "C" fn _event(id: u32, ptr: u32, len: u32) -> Ret2Val {
     let name = &ptr_to_string(ptr, len);
-    let (r, g) = ON_EVENT.unwrap()(id, name);
-    let (ptr, len) = string_to_ptr(&g);
-    std::mem::forget(g);
+    let (errno, result) = ON_EVENT.unwrap()(id, name);
+    let (ptr, len) = string_to_ptr(&result);
+    std::mem::forget(result);
     return Ret2Val {
-        one: r,
+        one: errno,
         two: ((ptr as u64) << 32) | len as u64,
     };
 }
