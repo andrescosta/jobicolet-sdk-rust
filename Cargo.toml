@@ -1,6 +1,6 @@
 [package]
 name = "jobicolet"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 repository = "https://github.com/andrescosta/jobicolet-sdk-rust"
 description = "Very experimental and rudimentary WASM SDK for Jobico"
